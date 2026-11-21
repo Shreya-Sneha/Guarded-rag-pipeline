@@ -1,76 +1,76 @@
 <div align="center">
 
-# Atlas Enterprise AI
+# Guarded RAG Pipeline
 
-### Enterprise Knowledge Assistant with RAG, LangGraph, AWS Bedrock, and Automated AWS Deployment
+An Enterprise Knowledge Assistant powered by Retrieval-Augmented Generation (RAG), LangGraph, Amazon Bedrock, and automated AWS CI/CD deployment[span_22](start_span)[span_22](end_span)[span_23](start_span)[span_23](end_span).
 
-**Document intelligence · Conversational memory · Guardrails · Human review · Observability · CI/CD**
+**Document Intelligence · Conversational Memory · Guardrails · Human-in-the-Loop Review · Observability · CI/CD**[span_24](start_span)[span_24](end_span)
 
-[Overview](#overview) · [Architecture](#architecture) · [Quick Start](#quick-start) · [CI/CD Deployment](#cicd-deployment-to-aws) · [API](#api-reference) · [Security](#security-and-production-readiness)
-
-</div>
+[Overview](#overview) · [Key Features](#key-features) · [Technology Stack](#technology-stack) · [Architecture](#architecture) · [Repository Structure](#repository-structure) · [Getting Started](#getting-started)
 
 ---
 
 ## Overview
 
-**Atlas Enterprise AI** is a full-stack, educational enterprise knowledge assistant that answers natural-language questions over uploaded organizational documents using retrieval-augmented generation (RAG). It combines a FastAPI backend, LangGraph orchestration, Amazon Bedrock models, Pinecone vector search, and PostgreSQL-backed conversation history with an HTML/CSS/JavaScript interface.
+**Guarded RAG Pipeline** is a full-stack enterprise knowledge assistant that answers natural-language questions over uploaded organizational documents using Retrieval-Augmented Generation (RAG)[span_25](start_span)[span_25](end_span). It combines Amazon Bedrock, LangGraph orchestration, Amazon Titan Embeddings, Pinecone vector search, and PostgreSQL-backed conversation history with a lightweight HTML/CSS/JavaScript web interface[span_26](start_span)[span_26](end_span)[span_27](start_span)[span_27](end_span).
 
-The project demonstrates how to connect document ingestion, grounded question answering, safety checks, human-in-the-loop (HITL) review, operational auditing, and observability into one AI application. It also includes a deployment approach using **Docker, Amazon ECR, Amazon EC2, and GitHub Actions with a self-hosted runner**.
+The project demonstrates how to integrate document ingestion, grounded question answering, input/output safety checks, human-in-the-loop (HITL) approvals, centralized auditing, and workflow observability into a single application, complete with a containerized AWS deployment pipeline using Docker, Amazon ECR, Amazon EC2, and GitHub Actions[span_28](start_span)[span_28](end_span)[span_29](start_span)[span_29](end_span)[span_30](start_span)[span_30](end_span).
 
-> **Project status:** Teaching/reference implementation. It is **not production-secure as shipped**: the demo identity context is not a real authentication or authorization system, approval decisions do not automatically execute destructive operations, and production-grade availability and rollback controls must be added separately.
+---
 
 ## Key Features
 
 | Capability | Description |
-| --- | --- |
-| Document ingestion | Browser uploads files directly to private Amazon S3 using presigned URLs; the backend processes and indexes them. |
-| Enterprise RAG | Retrieve relevant chunks from Pinecone and generate grounded answers using Amazon Bedrock. |
-| LangGraph workflow | Coordinate retrieval, generation, guardrail checks, and conversational context. |
-| Conversation memory | Persist chat turns in PostgreSQL and reuse recent history for follow-up questions. |
-| Guardrails | Apply deterministic input/output checks; behavior depends on the implemented rules. |
-| HITL approvals | Queue selected sensitive/action-like requests for review and record approval decisions. |
-| Audit and feedback | Store relevant application events and user feedback in PostgreSQL. |
-| Observability | Optional GlassFlow Rius instrumentation for supported execution traces and diagnostics. |
-| Web dashboard | Document upload, chat, history, approvals, and operational views in a lightweight UI. |
-| Automated delivery | Build and publish versioned Docker images to ECR and deploy to EC2 through GitHub Actions. |
+| :--- | :--- |
+| **Document Ingestion** | Upload files directly to private Amazon S3 buckets using presigned URLs; automatically chunks, embeds, and indexes content[span_31](start_span)[span_31](end_span). |
+| **Enterprise RAG** | Retrieves relevant semantic chunks from Pinecone and generates grounded answers via Amazon Bedrock[span_32](start_span)[span_32](end_span). |
+| **LangGraph Workflow** | Coordinates retrieval, generation, guardrail checks, and conversational context through a stateful graph[span_33](start_span)[span_33](end_span)[span_34](start_span)[span_34](end_span). |
+| **Conversation Memory** | Persists chat turns in PostgreSQL and routes recent history for multi-turn follow-up questions[span_35](start_span)[span_35](end_span). |
+| **Input & Output Guardrails** | Applies deterministic safety checks before model execution and prior to returning responses[span_36](start_span)[span_36](end_span)[span_37](start_span)[span_37](end_span). |
+| **Human-in-the-Loop (HITL)** | Pauses sensitive or escalated actions for manual review and approval decisions[span_38](start_span)[span_38](end_span). |
+| **Audit & Feedback** | Logs application events, approval trails, and user feedback in PostgreSQL[span_39](start_span)[span_39](end_span). |
+| **Workflow Observability** | Integrates GlassFlow Rius instrumentation for end-to-end execution traces and diagnostics[span_40](start_span)[span_40](end_span)[span_41](start_span)[span_41](end_span). |
+| **Web Dashboard** | Lightweight browser UI for document uploads, chat, history, approvals, and operational views[span_42](start_span)[span_42](end_span). |
+| **Automated Delivery** | Builds and publishes versioned Docker images to Amazon ECR and deploys to EC2 via GitHub Actions[span_43](start_span)[span_43](end_span). |
+
+---
 
 ## Technology Stack
 
 | Layer | Technology | Purpose |
-| --- | --- | --- |
-| Backend | Python, FastAPI, Uvicorn | APIs and application server |
-| Frontend | HTML, CSS, JavaScript | Browser-based user interface |
-| Orchestration | LangGraph | Stateful RAG workflow |
-| LLM | Amazon Bedrock — Nova Lite | Response generation |
-| Embeddings | Amazon Bedrock — Titan Text Embeddings V2 | Document and query vectors (1,024 dimensions in this project) |
-| Vector database | Pinecone | Semantic retrieval and document chunk indexing |
-| Object storage | Amazon S3 | Original uploaded documents |
-| Relational database | PostgreSQL on Render | Document metadata, conversations, approvals, feedback, audit |
-| Observability | GlassFlow Rius | Optional AI workflow tracing |
-| Containerization | Docker | Portable application runtime |
-| Image registry | Amazon ECR | Private Docker image storage |
-| Compute | Amazon EC2 | Hosts the self-hosted runner and deployed container |
-| CI/CD | GitHub Actions | Automated build, publish, and deployment |
+| :--- | :--- | :--- |
+| **Backend** | Python, FastAPI, Uvicorn | REST APIs and application server[span_44](start_span)[span_44](end_span) |
+| **Frontend** | HTML, CSS, JavaScript | Browser-based user interface[span_45](start_span)[span_45](end_span) |
+| **Orchestration** | LangGraph | Stateful RAG and guardrail workflow[span_46](start_span)[span_46](end_span)[span_47](start_span)[span_47](end_span) |
+| **LLM** | Amazon Bedrock (Nova Lite) | Grounded response generation[span_48](start_span)[span_48](end_span) |
+| **Embeddings** | Amazon Bedrock (Titan Text Embeddings v2) | Document and query vectors (1,024 dimensions)[span_49](start_span)[span_49](end_span) |
+| **Vector Database** | Pinecone | Semantic retrieval and document chunk indexing[span_50](start_span)[span_50](end_span) |
+| **Object Storage** | Amazon S3 | Raw uploaded document storage[span_51](start_span)[span_51](end_span) |
+| **Relational Database** | PostgreSQL (on Render) | Document metadata, conversations, approvals, feedback, and audit logs[span_52](start_span)[span_52](end_span) |
+| **Observability** | GlassFlow Rius | Optional AI workflow tracing and diagnostics[span_53](start_span)[span_53](end_span)[span_54](start_span)[span_54](end_span) |
+| **Containerization** | Docker | Portable application runtime[span_55](start_span)[span_55](end_span) |
+| **Image Registry** | Amazon ECR | Private Docker image storage[span_56](start_span)[span_56](end_span) |
+
+---
 
 ## Architecture
 
-### Application architecture
+### Application & RAG Flow
 
 ```mermaid
 flowchart TD
-    U[User / Browser UI] -->|Upload request| API[FastAPI]
-    API -->|Presigned upload URL| U
-    U -->|Direct file upload| S3[Amazon S3]
-    U -->|Upload complete| API
-    API --> ING[Document ingestion]
+    U[User / Browser UI] -->|1. Upload request| API[FastAPI Backend]
+    API -->|2. Presigned upload URL| U
+    U -->|3. Direct file upload| S3[(Amazon S3)]
+    U -->|4. Upload complete| API
+    API --> ING[Document Ingestion]
     ING -->|Read file| S3
-    ING -->|Create embeddings| TITAN[Bedrock Titan Embeddings V2]
-    ING -->|Upsert vectors| PC[Pinecone]
+    ING -->|Create embeddings| TITAN[Bedrock Titan Embeddings v2]
+    ING -->|Upsert vectors| PC[(Pinecone)]
     ING --> DB[(Render PostgreSQL)]
 
-    U -->|Ask question| API
-    API --> GR[LangGraph RAG + guardrails]
+    U -->|5. Ask question| API
+    API --> GR[LangGraph RAG + Guardrails]
     GR -->|Conversation history| DB
     GR -->|Vector retrieval| PC
     GR -->|Generate answer| NOVA[Bedrock Nova Lite]
@@ -78,7 +78,10 @@ flowchart TD
     API --> U
     API -->|Approvals, feedback, audit| DB
     API -.->|Configured traces| RIUS[GlassFlow Rius]
-```
+
+</div>
+
+---
 
 > **Ingestion note:** In the reference implementation, upload completion can perform ingestion synchronously. For larger documents and production traffic, move ingestion to a durable asynchronous worker or job service.
 
